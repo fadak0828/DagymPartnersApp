@@ -1,0 +1,63 @@
+{
+  "name": "dagym-partners-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "repository": "https://songfadak@bitbucket.org/songfadak/dagympartnersapp.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --mac --win --x64",
+    "ship": "electron-builder --mac --win --x64 -p always"
+  },
+  "author": "stone-i",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-builder": "^20.38.4",
+    "electron-updater": "^4.0.6"
+  },
+  "build": {
+    "productName": "DagymPartners",
+    "appId": "com.electron.dagym",
+    "asar": true,
+    "protocols": {
+      "name": "DagymPartners",
+      "schemes": [
+        "DagymPartners"
+      ]
+    },
+    "mac": {
+      "target": [
+        "default"
+      ]
+    },
+    "dmg": {
+      "title": "DagymPartners"
+    },
+    "win": {
+      "target": [
+        "zip",
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm",
+        "zip",
+        "tar.gz"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "directories": {
+      "buildResources": "resources/installer/",
+      "output": "app-dist/",
+      "app": "."
+    }
+  }
+}
