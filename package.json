@@ -1,6 +1,6 @@
 {
   "name": "dagym-partners-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "main.js",
   "repository": "https://songfadak@bitbucket.org/songfadak/dagympartnersapp.git",
@@ -12,10 +12,12 @@
   },
   "author": "stone-i",
   "license": "ISC",
+  "dependencies": {
+    "electron-updater": "^4.0.6"
+  },
   "devDependencies": {
     "electron": "^4.0.1",
-    "electron-builder": "^20.38.4",
-    "electron-updater": "^4.0.6"
+    "electron-builder": "^20.38.4"
   },
   "build": {
     "productName": "DagymPartners",
