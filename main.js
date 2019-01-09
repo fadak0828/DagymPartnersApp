@@ -34,6 +34,13 @@ function createWindow () {
 app.on('ready', function() {
     createWindow();
     autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.on('update-available', (info) => {
+        console.log(dialog.showMessageBox({
+            title: '다짐 업데이트',
+            detail: '새로운 업데이트가 있습니다.',
+            buttons: ['확인']
+        }));
+    });
 })
 
 // Quit when all windows are closed.
