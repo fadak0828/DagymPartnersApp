@@ -1,9 +1,9 @@
 {
   "name": "dagym-partners-app",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "main.js",
-  "repository": "https://songfadak@bitbucket.org/songfadak/dagympartnersapp.git",
+  "repository": "https://github.com/fadak0828/DagymPartnersApp.git",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-builder --dir",
