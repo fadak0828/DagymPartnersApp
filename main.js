@@ -1,9 +1,9 @@
-const { app, BrowserWindow, dialog } = require('electron');
+const { app, BrowserWindow, dialog, protocol, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('path')
 const url = require('url')
 
-let win;
+let win, updateWin;
 
 function createWindow () {
   // Create the browser window.
@@ -29,18 +29,48 @@ function createWindow () {
     win = null
   })
 }
+function sendStatusToWindow(text) {
+    updateWin.webContents.send('message', text);
+}
+
+function createUpdateCheckerWindow() {
+    updateWin = new BrowserWindow({parent: win});
+    updateWin.on('closed', () => {
+        updateWin = null;
+    });
+    updateWin.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
+    autoUpdater.checkForUpdates();
+    return updateWin;
+}
+
+autoUpdater.on('update-available', (info) => {
+    console.log(dialog.showMessageBox({
+        title: 'DagymPartners',
+        message: '새로운 업데이트가 있습니다.',
+        buttons: ['확인']
+    }));
+});
+autoUpdater.on('update-not-available', (info) => {
+    // createWindow();
+    updateWin.close();
+})
+autoUpdater.on('error', (err) => {
+    // createWindow();
+    updateWin.close();
+})
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "다운로드 속도: " + Math.round(progressObj.bytesPerSecond / 1024 / 1024) + "Mb/s";
+    log_message = log_message + ' - 업데이트 진행: ' + Math.round(progressObj.percent) + '%';
+    sendStatusToWindow(log_message);
+})
+autoUpdater.on('update-downloaded', (info) => {
+    autoUpdater.quitAndInstall();
+});
 
 // Create window on electron intialization
 app.on('ready', function() {
     createWindow();
-    autoUpdater.checkForUpdatesAndNotify();
-    autoUpdater.on('update-available', (info) => {
-        console.log(dialog.showMessageBox({
-            title: '다짐 업데이트',
-            detail: '새로운 업데이트가 있습니다.',
-            buttons: ['확인']
-        }));
-    });
+    createUpdateCheckerWindow();
 })
 
 // Quit when all windows are closed.
